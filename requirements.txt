@@ -1,0 +1,24 @@
+numpy
+pandas
+scikit-learn
+joblib
+
+# Logging & utilities
+python-dateutil
+
+# Optional but recommended (model training ke liye later)
+xgboost
+lightgbm
+
+# For imbalance handling (later use)
+imbalanced-learn
+
+# Serialization & packaging
+setuptools
+
+# Deployment (future-ready)
+fastapi
+uvicorn
+flask
+gunicorn
+#-e .

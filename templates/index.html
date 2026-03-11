@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fraud Detection System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Fraud Detection System</h1>
+    <div class="subtitle">
+        Machine Learning based real-time transaction risk analysis
+    </div>
+
+    <!-- 🔥 MODEL INFO -->
+    <div class="model-info">
+        <span>Model:</span> XGBoost Classifier |
+        <span>Metric:</span> PR-AUC |
+        <span>Imbalance:</span> scale_pos_weight
+    </div>
+
+    <form method="POST">
+
+        <div>
+            <label>Transaction Amount</label>
+            <input type="number" step="any" name="amt" required>
+        </div>
+
+        <div>
+            <label>Age</label>
+            <input type="number" name="age" required>
+        </div>
+
+        <div>
+            <label>Gender</label>
+            <select name="gender" required>
+                <option value="">Select</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Merchant</label>
+            <input type="text" name="merchant" required>
+        </div>
+
+        <div>
+            <label>Category</label>
+            <input type="text" name="category" required>
+        </div>
+
+        <div>
+            <label>Job</label>
+            <input type="text" name="job" required>
+        </div>
+
+        <div>
+            <label>State</label>
+            <input type="text" name="state" required>
+        </div>
+
+        <div>
+            <label>Zip Code</label>
+            <input type="number" name="zip" required>
+        </div>
+
+        <div>
+            <label>Customer Latitude</label>
+            <input type="number" step="any" name="lat" required>
+        </div>
+
+        <div>
+            <label>Customer Longitude</label>
+            <input type="number" step="any" name="long" required>
+        </div>
+
+        <div>
+            <label>Merchant Latitude</label>
+            <input type="number" step="any" name="merch_lat" required>
+        </div>
+
+        <div>
+            <label>Merchant Longitude</label>
+            <input type="number" step="any" name="merch_long" required>
+        </div>
+
+        <div>
+            <label>City Population</label>
+            <input type="number" name="city_pop" required>
+        </div>
+
+        <div>
+            <label>Unix Time</label>
+            <input type="number" name="unix_time" required>
+        </div>
+
+        <button type="submit">Predict Fraud Risk</button>
+    </form>
+
+    {% if result %}
+    <div class="result {% if result.prediction == 1 %}fraud{% else %}safe{% endif %}">
+        <h2>
+            {% if result.prediction == 1 %}
+                🚨 High Risk Transaction
+            {% else %}
+                ✅ Low Risk Transaction
+            {% endif %}
+        </h2>
+
+        <div class="prob">
+            Fraud Probability: {{ result.probability }}
+        </div>
+
+        <!-- 🔥 PROGRESS BAR -->
+        <div class="progress">
+            <div class="bar {% if result.prediction == 1 %}fraud-bar{% else %}safe-bar{% endif %}"
+                 style="width: {{ result.probability * 100 }}%">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="result fraud">
+        ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
+    <footer>
+        © Fraud Detection ML System | Flask + XGBoost <br>
+        <small>
+            ⚠️ Demo system. Predictions are probabilistic and for educational use only.
+        </small>
+    </footer>
+</div>
+
+</body>
+</html>
